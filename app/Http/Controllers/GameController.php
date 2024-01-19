@@ -8,6 +8,7 @@ use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 use App\Models\GameDb;
+use App\Models\GameChat;
 use Illuminate\Support\Facades\DB;
 use App\Models\Players;
 
@@ -16,7 +17,6 @@ class GameController extends Controller
     //Creates new Game
     public function createNewGame(Request $request): RedirectResponse
     {
-        error_log('te');
         //create the game 
         $game = GameDb::create(['userCreateId' => $request->user()->id]);
         $gameID = $game->id;
@@ -43,23 +43,27 @@ class GameController extends Controller
             shuffle($names);
             $singlePlayer = Players::create(['game_id' => $gameID, 'user_id' => 0, 'role_id' => array_pop($roles), 'name' => array_pop($names), 'is_bot' => 1]);
         }
-        
+        //adding the message that the game has started
+        $message = GameChat::create(['game_id' => $gameID,  'message' => '<b>Game has Started</b>']);
+
+
         return Redirect::route('game', [$gameID]);
     }
-    public function game(Request $request, $id):Response
+    public function game(Request $request, $id): Response
     {
         try {
             $queryResultGame = DB::select('CALL gameinfoget(?, ?)', [$id, $request->user()->id]);
             $resultGame = collect($queryResultGame);
             $queryResultPlayers = DB::select('CALL playersget(?, ?)', [$id, $request->user()->id]);
             $resultPlayers = collect($queryResultPlayers);
+            $gamechat =   GameChat::where('game_id', $id)->get();
         } catch (\Illuminate\Database\QueryException $ex) {
             error_log($ex->getMessage());
             // Note any method of class PDOException can be called on $ex.
-        //    return Redirect::route('dashboard');
+            //    return Redirect::route('dashboard');
         }
-       
 
-        return Inertia::render('Game',['gameinfo'=>$resultGame,'playersinfo'=>$resultPlayers]);
+
+        return Inertia::render('Game', ['gameinfo' => $resultGame, 'playersinfo' => $resultPlayers, 'gamechat' => $gamechat]);
     }
 }

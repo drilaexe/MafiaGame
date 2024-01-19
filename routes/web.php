@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GameController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 /*
@@ -18,12 +19,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Redirect::route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -39,4 +35,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/game/{id}', [GameController::class, 'game'])->name('game');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
