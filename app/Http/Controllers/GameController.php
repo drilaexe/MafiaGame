@@ -8,6 +8,7 @@ use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 use App\Models\GameDb;
+use Illuminate\Support\Facades\DB;
 use App\Models\Players;
 
 class GameController extends Controller
@@ -15,7 +16,7 @@ class GameController extends Controller
     //Creates new Game
     public function createNewGame(Request $request): RedirectResponse
     {
-    
+        error_log('te');
         //create the game 
         $game = GameDb::create(['userCreateId' => $request->user()->id]);
         $gameID = $game->id;
@@ -42,11 +43,23 @@ class GameController extends Controller
             shuffle($names);
             $singlePlayer = Players::create(['game_id' => $gameID, 'user_id' => 0, 'role_id' => array_pop($roles), 'name' => array_pop($names), 'is_bot' => 1]);
         }
-        return Redirect::route('game',[$gameID]);
+        
+        return Redirect::route('game', [$gameID]);
     }
-    public function game(Request $request,$id): Response
+    public function game(Request $request, $id):Response
     {
-        error_log($request->user()->id);
-        return Inertia::render('Game');
+        try {
+            $queryResultGame = DB::select('CALL gameinfoget(?, ?)', [$id, $request->user()->id]);
+            $resultGame = collect($queryResultGame);
+            $queryResultPlayers = DB::select('CALL playersget(?, ?)', [$id, $request->user()->id]);
+            $resultPlayers = collect($queryResultPlayers);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            error_log($ex->getMessage());
+            // Note any method of class PDOException can be called on $ex.
+        //    return Redirect::route('dashboard');
+        }
+       
+
+        return Inertia::render('Game',['gameinfo'=>$resultGame,'playersinfo'=>$resultPlayers]);
     }
 }

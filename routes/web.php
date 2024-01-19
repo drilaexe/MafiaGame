@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/createNewGame', [GameController::class, 'createNewGame'])->name('createNewGame');
+    Route::post('/createNewGame', [GameController::class, 'createNewGame'])->name('createNewGame');
     Route::get('/game/{id}', [GameController::class, 'game'])->name('game');
 });
 
