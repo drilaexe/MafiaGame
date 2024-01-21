@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import timeago from 'vue-timeago3';
+import VueChatScroll from 'vue3-chat-scroll';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -16,6 +17,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(timeago)
+            .use(VueChatScroll)
             .mount(el);
     },
     progress: {

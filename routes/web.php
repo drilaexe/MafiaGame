@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/createNewGame', [GameController::class, 'createNewGame'])->name('createNewGame');
     Route::get('/game/{id}', [GameController::class, 'game'])->name('game');
+    Route::get('/gameFlow', [GameController::class, 'gameFlow'])->name('gameFlow');
 });
 
 require __DIR__ . '/auth.php';

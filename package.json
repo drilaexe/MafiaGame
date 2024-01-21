@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "vue-timeago3": "^2.3.2",
-        "vue2-timeago": "^3.0.2"
+        "vue2-timeago": "^3.0.2",
+        "vue3-chat-scroll": "^0.2.0"
     }
 }
