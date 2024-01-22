@@ -13,7 +13,7 @@ Mafia The game models a conflict between two groups: an informed minority (the m
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/drilaexe/MafiaGame
 ```
 
 Go to the project directory
