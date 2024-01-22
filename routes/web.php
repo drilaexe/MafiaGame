@@ -24,8 +24,8 @@ Route::get('/', function () {
 });
 
 Route::get('/games', function () {
-    $gameData = GameDb::latest()
-    ->paginate(8);
+    $gameData = GameDb::orderBy('created_at','DESC')
+    ->paginate(14);
     return Inertia::render('Games', ['gameData' => $gameData]);
 })->middleware(['auth', 'verified'])->name('games');
 

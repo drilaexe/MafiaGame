@@ -36,16 +36,18 @@ function creategame() {
                         <table className="table-fixed w-full">
                             <thead>
                                 <tr className="bg-gray-100">
-                                    <th className="px-4 py-2 w-20">No.</th>
-                                    <th className="px-4 py-2">Title</th>
-                                    <th className="px-4 py-2">Body</th>
+                                    <th className="px-4 py-2 ">Game No.</th>
+                                    <th className="px-4 py-2">Status</th>
+                                    <th className="px-4 py-2">Created At</th>
+                                    <th className="px-4 py-2">See Game</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="gameData in gameData.data">
-                                    <td className="border px-4 py-2">{{ gameData.id }}</td>
-                                    <td className="border px-4 py-2">{{ gameData.title }}</td>
-                                    <td className="border px-4 py-2">{{ gameData.body }}</td>
+                                    <td className="border px-4 py-2">Game #{{ gameData.id }}</td>
+                                    <td className="border px-4 py-2" >{{ gameData.status==1?'Active':'Ended' }}</td>
+                                    <td className="border px-4 py-2">{{ gameData.created_at }}</td>
+                                    <td className="border px-4 py-2"><a :href="'/game/' + gameData.id">Go To The Game ></a></td>
                                 </tr>
                             </tbody>
                         </table>
